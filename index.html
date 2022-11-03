@@ -60,35 +60,41 @@
                 </div>
                 <!-- SIDE BAR SEARCH -->
                 <div class="side-bar-search">
-                    <button>
+                    <button
+                        @click="search"
+                    >
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                     <input 
                         type="text" 
                         placeholder="Cerca o inizia una nuova chat" 
+                        v-model.trim="searchQuery"
+                        @keyup="search"
                     >
                 </div>
                 <!-- SIDE BAR CONTENT -->
                 <div class="side-bar-content">
-                    <div 
-                        class="contact" 
-                        :class="{'active': activeContact === index}" 
-                        v-for="(contact, index) in contacts" 
-                        @click="setActiveContact(index)"
-                    >
-                        <div class="contact-left">
-                            <div class="contact-avatar">
-                                <img :src="`img/avatar${contact.avatar}.jpg`" :alt="`${contact.name} avatar`">
+                    <template v-for="(contact, index) in contacts">
+                        <div 
+                            class="contact" 
+                            :class="{'active': activeContact === index}" 
+                            v-if="contact.visible"
+                            @click="setActiveContact(index)"
+                        >
+                            <div class="contact-left">
+                                <div class="contact-avatar">
+                                    <img :src="`img/avatar${contact.avatar}.jpg`" :alt="`${contact.name} avatar`">
+                                </div>
+                                <div class="contact-info">
+                                    <span>{{contact.name}}</span>
+                                    <p>{{contact.messages[getArrayLastPosition(contact.messages)].message}}</p>
+                                </div>
                             </div>
-                            <div class="contact-info">
-                                <span>{{contact.name}}</span>
-                                <p>{{contact.messages[getArrayLastPosition(contact.messages)].message}}</p>
+                            <div class="contact-right">
+                                <span>12:00</span>
                             </div>
                         </div>
-                        <div class="contact-right">
-                            <span>12:00</span>
-                        </div>
-                    </div>
+                    </template>
                 </div>
             </div>
             <!-- CHAT -->

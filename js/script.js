@@ -6,6 +6,7 @@ createApp({
         return {
             activeContact: 2,
             insertedMessage: "",
+            searchQuery: "",
             contacts: [
                 {
                     name: 'Michele',
@@ -179,15 +180,17 @@ createApp({
             this.activeContact = clickedContact;
         },
         sendMessage() {
-            const now = dt.now().setLocale('it').toLocaleString(dt.DATETIME_SHORT_WITH_SECONDS);
-            const newMessage = {
-                date: now,
-                message: this.insertedMessage,
-                status: 'sent'
+            if(this.insertedMessage !== "") {
+                const now = dt.now().setLocale('it').toLocaleString(dt.DATETIME_SHORT_WITH_SECONDS);
+                const newMessage = {
+                    date: now,
+                    message: this.insertedMessage,
+                    status: 'sent'
+                }
+                this.contacts[this.activeContact].messages.push(newMessage);
+                this.insertedMessage = "";
+                this.replyDefault(this.activeContact);
             }
-            this.contacts[this.activeContact].messages.push(newMessage);
-            this.insertedMessage = "";
-            this.replyDefault(this.activeContact);
         },
         replyDefault(whoReplies) {
             setTimeout(() => {
@@ -199,6 +202,11 @@ createApp({
                 }
                 this.contacts[whoReplies].messages.push(reply);
             }, 1000);
+        },
+        search(){
+            this.contacts.forEach(contact => {
+                contact.visible = contact.name.toLowerCase().includes(this.searchQuery.toLowerCase());
+            });
         },
     },
 }).mount("#app");

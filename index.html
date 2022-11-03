@@ -4,21 +4,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boolzapp</title>
-
-    <!-- FONTS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com"> 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-
     <!-- FONTAWESOME -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <link 
+        rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" 
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer" 
+    />
+    <!-- FONTS -->
+    <link 
+        href="https://fonts.googleapis.com/css2?family=Lato&display=swap" 
+        rel="stylesheet"
+    >
+    <!-- CUSTOM STYLE -->
+    <link rel="stylesheet" href="css/style.css">
     <!-- VUE -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.41/vue.global.min.js"></script>
-
-    <!-- CUSTOM STYLES -->
-    <link rel="stylesheet" href="css/style.css">
+    <!-- LUXON -->
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.3/build/global/luxon.min.js"></script>
+    <title>Boolzapp</title>
 </head>
 <body>
     <!-- APP -->
@@ -58,18 +63,26 @@
                     <button>
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
-                    <input type="text" placeholder="Cerca o inizia una nuova chat">
+                    <input 
+                        type="text" 
+                        placeholder="Cerca o inizia una nuova chat" 
+                    >
                 </div>
                 <!-- SIDE BAR CONTENT -->
                 <div class="side-bar-content">
-                    <div class="contact" v-for="contact in contacts">
+                    <div 
+                        class="contact" 
+                        :class="{'active': activeContact === index}" 
+                        v-for="(contact, index) in contacts" 
+                        @click="setActiveContact(index)"
+                    >
                         <div class="contact-left">
                             <div class="contact-avatar">
                                 <img :src="`img/avatar${contact.avatar}.jpg`" :alt="`${contact.name} avatar`">
                             </div>
                             <div class="contact-info">
                                 <span>{{contact.name}}</span>
-                                <p>Ultimo messaggio inviato</p>
+                                <p>{{contact.messages[getArrayLastPosition(contact.messages)].message}}</p>
                             </div>
                         </div>
                         <div class="contact-right">
@@ -88,6 +101,7 @@
                         </div>
                         <div class="heading-info">
                             <span>{{contacts[activeContact].name}}</span>
+                            <p>Ultimo accesso oggi alle 12:00</p>
                         </div>
                     </div>
                     <div class="heading-right">
@@ -110,7 +124,12 @@
                 <!-- CHAT INPUT -->
                 <div class="chat-input">
                     <i class="fa-regular fa-face-smile"></i>
-                    <input type="text" placeholder="Scrivi un messaggio">
+                    <input 
+                        type="text" 
+                        placeholder="Scrivi un messaggio"
+                        v-model.trim="insertedMessage" 
+                        @keyup.enter="sendMessage"
+                    >
                     <i class="fa-solid fa-microphone"></i>
                 </div>
             </div>

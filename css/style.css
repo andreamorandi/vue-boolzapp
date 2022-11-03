@@ -10,31 +10,31 @@ html {
     font-family: 'Lato', sans-serif;
 }
 
-/* BODY */
-.bg-bar-top {
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* APP */
+.app-wrapper {
     width: 100%;
-    height: 20vh;
-    min-height: 100px;
+    height: 100vh;
     position: fixed;
     left: 0;
     top: 0;
-    background-color: #009688;
+    background-image: linear-gradient(
+        to bottom,
+        #009688 0%,
+        #009688 15vh,
+        #dddbd1 15vh,
+        #d2dbdc 100%
+    );
 }
 
-.bg-bar-bottom {
-    width: 100%;
-    height: 80vh;
-    min-height: 400px;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    background-color: #dadbd3;
-}
-
-/* MAIN */
+/* CONTAINER */
 .container {
     width: 80%;
-    min-width: 850px;
+    min-width: 870px;
     height: 90%;
     min-height: 450px;
     position: fixed;
@@ -71,8 +71,8 @@ html {
 }
 
 .heading-right i {
-    transform: scale(1.1);
-    margin: .4rem;
+    transform: scale(1.2);
+    margin: .5rem;
     color: #b1b1b1;
 }
 
@@ -86,14 +86,14 @@ html {
     border-right: 1px solid #d6d6d6;
 }
 
-.side-bar-notify {
+.side-bar-notifications {
     height: 80px;
     display: flex;
     align-items: center;
     background-color: #8edafc;
 }
 
-.notify-bell {
+.notifications-bell {
     width: 50px;
     height: 50px;
     flex-shrink: 0;
@@ -101,16 +101,16 @@ html {
     text-align: center;
     border-radius: 50%;
     margin-left: 1.25rem;
-    margin-right: .5rem;
+    margin-right: .75rem;
     color: #8edafc;
     background-color: #f2fbff;
 }
 
-.notify-bell i {
-    transform: scale(1.2);
+.notifications-bell i {
+    transform: scale(1.3);
 }
 
-.notify-info p:last-child {
+.notifications-info p:last-child {
     font-size: .8rem;
     text-decoration: underline;
     color: #4f7485;
@@ -140,15 +140,68 @@ html {
 .side-bar-search input {
     width: calc(100% - 15px - 75px);
     height: calc(100% - 15px);
+    text-overflow: ellipsis;
+    overflow: hidden;
     padding: .5rem;
     border: 1px solid #f5f5f5;
     background-color: white;
 }
 
-.side-bar-content {
-    height: calc(100% - (50px + 50px + 30px));
-    min-height: 320px;
+.side-bar-search input:focus {
+    outline: none;
+    border: 1px solid #009688;
 }
+
+.side-bar-content {
+    height: calc(100% - (70px + 80px + 50px));
+    min-height: 290px;
+    overflow: scroll;
+    background-color: white;
+}
+
+.side-bar-content img {
+    width: 60px;
+    border-radius: 50%;
+}
+
+.contact {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.contact-left {
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.contact-info p,
+.contact-right {
+    font-size: .8rem;
+    color: #b6b9bb;
+}
+
+.contact-info {
+    align-self: flex-start;
+    margin-left: .75rem;
+}
+
+.contact-info p {
+    margin-top: .25rem;
+}
+
+.contact-right {
+    height: 60px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    margin-right: .25rem;
+}
+
 
 /* CHAT */
 .chat {
@@ -160,16 +213,77 @@ html {
 }
 
 .chat-content {
-    height: calc(100% - (50px + 50px));
+    height: calc(100% - (70px + 70px));
     min-height: 350px;
+    overflow: scroll;
     background-image: url("../img/mine.jpg");
 }
 
+.messages-container {
+    width: 85%;
+    margin: 0 auto;
+    padding-top: 3rem;
+}
+
+.message-block {
+    width: 100%;
+    display: flex;
+    margin-bottom: .75rem;
+}
+
+.message {
+    display: inline-block;
+    min-width: 300px;
+    max-width: 60%;
+    border-radius: 10px;
+    padding: .6rem;
+}
+
+.message p {
+    word-wrap: break-word;
+    margin: .2rem;
+}
+
+.message span {
+    display: block;
+    font-size: .7rem;
+    text-align: right;
+    color: #b6b9bb;
+}
+
+.sent {
+    margin-left: auto;
+    background-color: #d5f9ba;
+}
+
+.received {
+    margin-right: auto;
+    background-color: white;
+}
+
 .chat-input {
-    height: 50px;
+    height: 70px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
     background-color: #f3eeea;
-    position: relative;
-    right: 0;
-    bottom: 0;
-    z-index: 999;
+}
+
+.chat-input input {
+    width: 80%;
+    height: 50px;
+    padding: .75rem;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.chat-input input:focus {
+    outline: none;
+    border: 1px solid #009688;
+}
+
+.chat-input i {
+    transform: scale(1.3);
+    color: #6b7376;
 }

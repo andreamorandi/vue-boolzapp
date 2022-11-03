@@ -21,11 +21,8 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="bg-bar-top"></div>
-    <div class="bg-bar-bottom"></div>
-
-    <!-- MAIN -->
-    <main>
+    <!-- APP -->
+    <div id="app" class="app-wrapper">
         <!-- CONTAINER -->
         <div class="container">
             <!-- LEFT BAR -->
@@ -47,11 +44,11 @@
                     </div>
                 </div>
                 <!-- SIDE BAR NOTIFY -->
-                <div class="side-bar-notify">
-                    <div class="notify-bell">
+                <div class="side-bar-notifications">
+                    <div class="notifications-bell">
                         <i class="fa-solid fa-bell-slash"></i>
                     </div>
-                    <div class="notify-info">
+                    <div class="notifications-info">
                         <p>Ricevi notifiche di nuovi messaggi</p>
                         <p>Attiva notifiche desktop</p>
                     </div>
@@ -65,7 +62,20 @@
                 </div>
                 <!-- SIDE BAR CONTENT -->
                 <div class="side-bar-content">
-
+                    <div class="contact" v-for="contact in contacts">
+                        <div class="contact-left">
+                            <div class="contact-avatar">
+                                <img :src="`img/avatar${contact.avatar}.jpg`" :alt="`${contact.name} avatar`">
+                            </div>
+                            <div class="contact-info">
+                                <span>{{contact.name}}</span>
+                                <p>Ultimo messaggio inviato</p>
+                            </div>
+                        </div>
+                        <div class="contact-right">
+                            <span>12:00</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- CHAT -->
@@ -74,10 +84,10 @@
                 <div class="chat-heading">
                     <div class="heading-left">
                         <div class="heading-avatar">
-                            <img src="img/avatar_1.jpg" alt="Michele">
+                            <img :src="`img/avatar${contacts[activeContact].avatar}.jpg`" :alt="`${contacts[activeContact].name} avatar`">
                         </div>
                         <div class="heading-info">
-                            <span>Michele</span>
+                            <span>{{contacts[activeContact].name}}</span>
                         </div>
                     </div>
                     <div class="heading-right">
@@ -88,17 +98,25 @@
                 </div>
                 <!-- CHAT CONTENT -->
                 <div class="chat-content">
-
+                    <div class="messages-container">
+                        <div class="message-block" v-for="currentMessage in contacts[activeContact].messages">
+                            <div class="message" :class="currentMessage.status">
+                                <p>{{currentMessage.message}}</p>
+                                <span>{{currentMessage.date}}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- CHAT INPUT -->
                 <div class="chat-input">
-
+                    <i class="fa-regular fa-face-smile"></i>
+                    <input type="text" placeholder="Scrivi un messaggio">
+                    <i class="fa-solid fa-microphone"></i>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
     
-    <script src="js/data.js"></script>
-    <script src="js/index.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>

@@ -183,6 +183,10 @@ img {
     padding: 1rem;
 }
 
+.contact:not(:last-child) {
+    border-bottom: 1px solid #f5f5f5;
+}
+
 .contact.active,
 .contact:hover {
     background-color: #e9ebeb;
@@ -223,6 +227,10 @@ img {
     margin-right: .25rem;
 }
 
+.search-warning {
+    text-align: center;
+    margin-top: 3rem;
+}
 
 /* CHAT */
 .chat {
@@ -258,23 +266,61 @@ img {
 }
 
 .message {
-    display: inline-block;
     min-width: 300px;
     max-width: 60%;
+    display: inline-block;
+    cursor: pointer;
     border-radius: 10px;
-    padding: .6rem;
+    padding: .6rem .7rem;
+}
+
+.message:hover .message-features i {
+    visibility: visible;
 }
 
 .message p {
+    display: inline;
     word-wrap: break-word;
-    margin: .2rem;
+    margin-top: .5rem;
+    margin-bottom: .1rem;
 }
 
-.message span {
-    display: block;
+.message-features-wrapper {
+    float: right;
+    padding: .4rem .25rem .25rem .5rem;
+}
+
+.message-features {
+    width: 30px;
+    height: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: .2rem;
+    position: relative;
+    text-align: center;
     font-size: .65rem;
-    text-align: right;
     color: #b6b9bb;
+}
+
+.message-features i {
+    transform: scale(1.2);
+    visibility: hidden;
+    color: #6b7376;
+}
+
+.message-menu {
+    width: 175px;
+    height: 50px;
+    line-height: 50px;
+    position: absolute;
+    top: 15px;
+    right: 0;
+    font-size: 1rem;
+    border-radius: 3px;
+    color: #6b7376;
+    background-color: white;
+    box-shadow: 0px 0px 7.5px 1px #6b7376;
 }
 
 .sent {

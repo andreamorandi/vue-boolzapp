@@ -1,12 +1,14 @@
 const { createApp } = Vue;
 const dt = luxon.DateTime;
+const messagesContainer = document.querySelector(".messages-container");
 
 createApp({
     data() {
         return {
-            activeContact: 2,
+            activeContact: 0,
             insertedMessage: "",
             searchQuery: "",
+            showSearchWarning: false,
             contacts: [
                 {
                     name: 'Michele',
@@ -173,17 +175,13 @@ createApp({
         };
     },
     methods: {
-        getArrayLastPosition(array) {
-            return (array.length - 1);
-        },
         setActiveContact(clickedContact) {
             this.activeContact = clickedContact;
         },
         sendMessage() {
             if(this.insertedMessage !== "") {
-                const now = dt.now().setLocale('it').toLocaleString(dt.DATETIME_SHORT_WITH_SECONDS);
                 const newMessage = {
-                    date: now,
+                    date: this.generateDateTime(),
                     message: this.insertedMessage,
                     status: 'sent'
                 }
@@ -191,6 +189,9 @@ createApp({
                 this.insertedMessage = "";
                 this.replyDefault(this.activeContact);
             }
+        },
+        generateDateTime() {
+            return dt.now().setLocale('it').toLocaleString(dt.DATETIME_SHORT_WITH_SECONDS);;
         },
         replyDefault(whoReplies) {
             setTimeout(() => {
@@ -207,6 +208,16 @@ createApp({
             this.contacts.forEach(contact => {
                 contact.visible = contact.name.toLowerCase().includes(this.searchQuery.toLowerCase());
             });
+            this.showSearchWarning = this.noVisibleContact();
         },
+        noVisibleContact() {
+            let noVisibleContact = true;
+            this.contacts.forEach(contact => {
+                if(contact.visible) {
+                    noVisibleContact = false;
+                }
+            });
+            return noVisibleContact;
+        }
     },
 }).mount("#app");

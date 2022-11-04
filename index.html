@@ -74,27 +74,29 @@
                 </div>
                 <!-- SIDE BAR CONTENT -->
                 <div class="side-bar-content">
-                    <template v-for="(contact, index) in contacts">
-                        <div 
-                            class="contact" 
-                            :class="{'active': activeContact === index}" 
-                            v-if="contact.visible"
-                            @click="setActiveContact(index)"
-                        >
-                            <div class="contact-left">
-                                <div class="contact-avatar">
-                                    <img :src="`img/avatar${contact.avatar}.jpg`" :alt="`${contact.name} avatar`">
-                                </div>
-                                <div class="contact-info">
-                                    <span>{{contact.name}}</span>
-                                    <p>{{contact.messages[getArrayLastPosition(contact.messages)].message}}</p>
-                                </div>
+                    <div 
+                        class="contact" 
+                        :class="{'active': activeContact === index}"
+                        v-for="(contact, index) in contacts" 
+                        v-show="contact.visible"
+                        @click="setActiveContact(index)"
+                    >
+                        <div class="contact-left">
+                            <div class="contact-avatar">
+                                <img :src="`img/avatar${contact.avatar}.jpg`" :alt="`${contact.name} avatar`">
                             </div>
-                            <div class="contact-right">
-                                <span>12:00</span>
+                            <div class="contact-info">
+                                <span>{{contact.name}}</span>
+                                <p>{{contact.messages[contact.messages.length - 1].message}}</p>
                             </div>
                         </div>
-                    </template>
+                        <div class="contact-right">
+                            <span>{{contact.messages[contact.messages.length - 1].date.slice(-8, -3)}}</span>
+                        </div>
+                    </div>
+                    <div class="search-warning" v-if="showSearchWarning">
+                        <p>Nessun contatto corrisponde alla ricerca</p>
+                    </div>
                 </div>
             </div>
             <!-- CHAT -->
@@ -122,7 +124,15 @@
                         <div class="message-block" v-for="currentMessage in contacts[activeContact].messages">
                             <div class="message" :class="currentMessage.status">
                                 <p>{{currentMessage.message}}</p>
-                                <span>{{currentMessage.date}}</span>
+                                <div class="message-features-wrapper">
+                                    <div class="message-features">
+                                        <!-- <div class="message-menu">
+                                            <span>Elimina messaggio</span>
+                                        </div> -->
+                                        <i class="fa-solid fa-chevron-down"></i>
+                                        <span>{{currentMessage.date.slice(-8, -3)}}</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

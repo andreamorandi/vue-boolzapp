@@ -1,6 +1,6 @@
 const { createApp } = Vue;
 const dt = luxon.DateTime;
-const messagesContainer = document.querySelector(".messages-container");
+let messages = document.getElementsByClassName("message");
 
 createApp({
     data() {
@@ -9,6 +9,8 @@ createApp({
             insertedMessage: "",
             searchQuery: "",
             showSearchWarning: false,
+            menuIndex: null,
+            showChatMenu: false,
             contacts: [
                 {
                     name: 'Michele',
@@ -175,8 +177,8 @@ createApp({
         };
     },
     methods: {
-        setActiveContact(clickedContact) {
-            this.activeContact = clickedContact;
+        setActiveContact(contactIndex) {
+            this.activeContact = contactIndex;
         },
         sendMessage() {
             if(this.insertedMessage !== "") {
@@ -188,6 +190,7 @@ createApp({
                 this.contacts[this.activeContact].messages.push(newMessage);
                 this.insertedMessage = "";
                 this.replyDefault(this.activeContact);
+                this.chatScrollDown();
             }
         },
         generateDateTime() {
@@ -202,11 +205,12 @@ createApp({
                     status: 'received'
                 }
                 this.contacts[whoReplies].messages.push(reply);
+                this.chatScrollDown();
             }, 1000);
         },
         search(){
             this.contacts.forEach(contact => {
-                contact.visible = contact.name.toLowerCase().includes(this.searchQuery.toLowerCase());
+                contact.visible = contact.name.toLowerCase().startsWith(this.searchQuery.toLowerCase());
             });
             this.showSearchWarning = this.noVisibleContact();
         },
@@ -218,6 +222,48 @@ createApp({
                 }
             });
             return noVisibleContact;
+        },
+        setMenuIndex(index) {
+            this.menuIndex = index;
+        },
+        hideMessageMenu() {
+            document.addEventListener("click", (event) => {
+                messages = document.getElementsByClassName("message");
+                if(this.menuIndex !== null) {
+                    if(this.menuIndex > messages.length - 1) {
+                        this.menuIndex = null;
+                    }
+                }
+                if(this.menuIndex !== null) {
+                    if(!messages[this.menuIndex].contains(event.target)) {
+                        this.menuIndex = null;
+                    }
+                }
+            });
+        },
+        deleteMessage(index) {
+            this.contacts[this.activeContact].messages.splice(index, 1);
+            this.menuIndex = null;
+        },
+        setShowChatMenu() {
+            document.addEventListener("click", (event) => {
+                this.showChatMenu = event.target.matches(".chat-menu-icon") ? true : false;
+            });
+        },
+        deleteMessages() {
+            this.contacts[this.activeContact].messages = [];
+        },
+        deleteChat() {
+            this.contacts.splice(this.activeContact, 1);
+        },
+        chatScrollDown() {
+            this.$nextTick(() => {
+                this.$refs.chatWindow.scrollTop = this.$refs.chatWindow.scrollHeight;
+            });
         }
+    },
+    mounted() {
+        this.hideMessageMenu();
+        this.setShowChatMenu();
     },
 }).mount("#app");

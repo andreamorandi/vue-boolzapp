@@ -76,8 +76,8 @@
                 <div class="side-bar-content">
                     <div 
                         class="contact" 
-                        :class="{'active': activeContact === index}"
-                        v-for="(contact, index) in contacts" 
+                        :class="{'active': activeContact === index}" 
+                        v-for="(contact, index) in contacts"
                         v-show="contact.visible"
                         @click="setActiveContact(index)"
                     >
@@ -87,11 +87,11 @@
                             </div>
                             <div class="contact-info">
                                 <span>{{contact.name}}</span>
-                                <p>{{contact.messages[contact.messages.length - 1].message}}</p>
+                                <p v-if="contacts[index].messages.length > 0">{{contact.messages[contact.messages.length - 1].message}}</p>
                             </div>
                         </div>
                         <div class="contact-right">
-                            <span>{{contact.messages[contact.messages.length - 1].date.slice(-8, -3)}}</span>
+                            <span v-if="contacts[index].messages.length > 0">{{contact.messages[contact.messages.length - 1].date.slice(-8, -3)}}</span>
                         </div>
                     </div>
                     <div class="search-warning" v-if="showSearchWarning">
@@ -113,23 +113,28 @@
                         </div>
                     </div>
                     <div class="heading-right">
+                        <ul class="chat-menu" v-show="showChatMenu">
+                            <li @click="deleteMessages"><span>Elimina messaggi</span></li>
+                            <li @click="deleteChat"><span>Elimina chat</span></li>
+                        </ul>
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <i class="fa-solid fa-paperclip"></i>
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                        <i class="fa-solid fa-ellipsis-vertical chat-menu-icon"></i>
                     </div>
                 </div>
                 <!-- CHAT CONTENT -->
-                <div class="chat-content">
+                <div class="chat-content" ref="chatWindow">
                     <div class="messages-container">
-                        <div class="message-block" v-for="currentMessage in contacts[activeContact].messages">
-                            <div class="message" :class="currentMessage.status">
+                        <div class="message-block" v-for="(currentMessage, index) in contacts[activeContact].messages">
+                            <div class="message" :class="currentMessage.status" @click="setMenuIndex(index)">
                                 <p>{{currentMessage.message}}</p>
                                 <div class="message-features-wrapper">
                                     <div class="message-features">
-                                        <!-- <div class="message-menu">
+                                        <div class="message-menu" v-if="menuIndex === index" @click="deleteMessage(index)">
                                             <span>Elimina messaggio</span>
-                                        </div> -->
-                                        <i class="fa-solid fa-chevron-down"></i>
+                                        </div>
+                                        <i class="fa-solid fa-chevron-down menu-icon-hover" v-show="menuIndex !== index"></i>
+                                        <i class="fa-solid fa-chevron-down menu-icon" v-show="menuIndex === index"></i>
                                         <span>{{currentMessage.date.slice(-8, -3)}}</span>
                                     </div>
                                 </div>
@@ -146,7 +151,8 @@
                         v-model.trim="insertedMessage" 
                         @keyup.enter="sendMessage"
                     >
-                    <i class="fa-solid fa-microphone"></i>
+                    <i class="fa-solid fa-microphone" v-if="!insertedMessage"></i>
+                    <i class="fa-solid fa-paper-plane" v-else @click="sendMessage"></i>
                 </div>
             </div>
         </div>

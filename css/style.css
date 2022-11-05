@@ -15,6 +15,10 @@ img {
     display: block;
 }
 
+ul {
+    list-style-type: none;
+}
+
 /* APP */
 .app-wrapper {
     width: 100%;
@@ -241,8 +245,42 @@ img {
     top: 0;
 }
 
+.heading-info {
+    position: relative;
+}
+
 .heading-info p {
     font-size: .8rem;
+    color: #6b7376;
+}
+
+.chat-menu {
+    width: 175px;
+    height: 100px;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    z-index: 999;
+    text-align: center;
+    font-size: 1rem;
+    border-radius: 3px;
+    color: #6b7376;
+    background-color: white;
+    box-shadow: 0px 0px 7.5px 1px #6b7376;
+}
+
+.chat-menu li {
+    width: 175px;
+    height: 50px;
+    line-height: 50px;
+    cursor: pointer;
+}
+
+.chat-menu li:hover {
+    background-color: #e9ebeb;
+}
+
+.chat-menu-icon:hover {
     color: #6b7376;
 }
 
@@ -274,7 +312,7 @@ img {
     padding: .6rem .7rem;
 }
 
-.message:hover .message-features i {
+.message:hover .message-features .menu-icon-hover {
     visibility: visible;
 }
 
@@ -303,9 +341,14 @@ img {
     color: #b6b9bb;
 }
 
-.message-features i {
+.message-features .menu-icon-hover {
     transform: scale(1.2);
     visibility: hidden;
+    color: #6b7376;
+}
+
+.message-features .menu-icon {
+    transform: scale(1.2);
     color: #6b7376;
 }
 
@@ -321,6 +364,10 @@ img {
     color: #6b7376;
     background-color: white;
     box-shadow: 0px 0px 7.5px 1px #6b7376;
+}
+
+.message-menu:hover {
+    background-color: #e9ebeb;
 }
 
 .sent {

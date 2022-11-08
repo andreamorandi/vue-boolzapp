@@ -73,31 +73,32 @@
                     >
                 </div>
                 <!-- SIDE BAR CONTENT -->
-                <div class="side-bar-content">
-                    <div 
-                        class="contact" 
-                        :class="{'active': activeContact === index}" 
-                        v-for="(contact, index) in contacts"
-                        v-show="contact.visible"
-                        @click="setActiveContact(index)"
-                    >
-                        <div class="contact-left">
-                            <div class="contact-avatar">
-                                <img :src="`img/avatar${contact.avatar}.jpg`" :alt="`${contact.name} avatar`">
+                <ul class="side-bar-content">
+                    <template v-for="(contact, index) in contacts">
+                        <li 
+                            class="contact" 
+                            :class="{'active': activeContact === index}" 
+                            v-show="contact.visible"
+                            @click="setActiveContact(index)"
+                        >
+                            <div class="contact-left">
+                                <div class="contact-avatar">
+                                    <img :src="`img/avatar${contact.avatar}.jpg`" :alt="`${contact.name} avatar`">
+                                </div>
+                                <div class="contact-info">
+                                    <span>{{contact.name}}</span>
+                                    <p v-if="contacts[index].messages.length > 0">{{contact.messages[contact.messages.length - 1].message}}</p>
+                                </div>
                             </div>
-                            <div class="contact-info">
-                                <span>{{contact.name}}</span>
-                                <p v-if="contacts[index].messages.length > 0">{{contact.messages[contact.messages.length - 1].message}}</p>
+                            <div class="contact-right">
+                                <span v-if="contacts[index].messages.length > 0">{{contact.messages[contact.messages.length - 1].date.slice(-8, -3)}}</span>
                             </div>
-                        </div>
-                        <div class="contact-right">
-                            <span v-if="contacts[index].messages.length > 0">{{contact.messages[contact.messages.length - 1].date.slice(-8, -3)}}</span>
-                        </div>
-                    </div>
+                        </li>
+                    </template>
                     <div class="search-warning" v-if="showSearchWarning">
                         <p>Nessun contatto corrisponde alla ricerca</p>
                     </div>
-                </div>
+                </ul>
             </div>
             <!-- CHAT -->
             <div class="chat">
